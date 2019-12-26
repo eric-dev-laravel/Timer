@@ -33,4 +33,12 @@ dependencies {
 
     //Libreria para le intro
     implementation 'com.github.apl-devs:appintro:v4.2.3'
+
+    //Libreria para uso de material design y actions buttons
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.github.clans:fab:1.6.4'
+
+    //Libreria para el manejo de peticiones al servidor
+    implementation 'com.loopj.android:android-async-http:1.4.5'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.10'
 }

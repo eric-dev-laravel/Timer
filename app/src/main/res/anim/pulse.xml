@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scale xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Rotate -->
+
+    <!-- android:duration="1000"
+    android:fromXScale="1"
+    android:fromYScale="1"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:repeatCount="1"
+    android:repeatMode="reverse"
+    android:toXScale="0.5"
+    android:toYScale="0.5"> -->
+
+    <!-- Rotate -->
+    <rotate
+         android:duration="1200"
+         android:fromDegrees="0"
+         android:interpolator="@android:anim/linear_interpolator"
+         android:pivotX="50%"
+         android:pivotY="50%"
+         android:toDegrees="360" />
+
+    <!--  down move -->
+    <!--<translate
+        android:duration="1500"
+        android:fromYDelta="0%p"
+        android:interpolator="@android:anim/linear_interpolator"
+        android:toYDelta="80%p" />-->
+
+    <!--  Intermitent -->
+    <!-- <alpha
+        android:duration="2000"
+        android:fromAlpha="0.0"
+        android:repeatCount="infinite"
+        android:repeatMode="reverse"
+        android:toAlpha="1.0" /> -->
+
+</scale>

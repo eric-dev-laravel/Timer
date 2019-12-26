@@ -2,7 +2,9 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#FF4444</color>
 
-    <color name="colorBackgroundSplash">#0B11BD</color>
+    <color name="colorBackgroundSplash">#191970</color>
+    <color name="colorBlueUcin">#191970</color>
+    <color name="colorGrayUcin">#696969</color>
 </resources>
