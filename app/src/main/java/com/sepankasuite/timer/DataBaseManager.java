@@ -16,8 +16,8 @@ public class DataBaseManager {
     private SQLiteDatabase db;
 
     //Variables de configuracion de servicios
-    private static final String SERVER_URL = "http://test.rally.sepankasuite.com/";
-    private static final String SERVER_PATH_CHECKLOGIN = "checklogin/";
+    public static final String SERVER_URL = "http://test.rally.sepankasuite.com/";
+    public static final String SERVER_PATH_CHECKLOGIN = "checklogin/";
 
     /*Esta clase es la encargada de hacer movimientos en la DB*/
 

@@ -56,12 +56,14 @@ public class SplashActivity extends AppCompatActivity {
                     //Nos aseguramos de cerrar las ventanas activas o que no se
                     //repitan si es que ya esta abiertas
                     startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    overridePendingTransition(R.anim.zoom_forward_in, R.anim.zoom_forward_out);
                     finish();
                 } else {
                     //Generamos un intent de la actividad nueva
                     Intent intent = new Intent(SplashActivity.this, InitialActivity.class);
                     //Lanzamos el activity
                     startActivity(intent);
+                    overridePendingTransition(R.anim.zoom_forward_in, R.anim.zoom_forward_out);
                     //Cerramos el intent actual para que no se quede en cola
                     finish();
                 }

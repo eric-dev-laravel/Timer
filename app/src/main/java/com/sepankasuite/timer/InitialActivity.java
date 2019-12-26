@@ -37,6 +37,7 @@ public class InitialActivity extends AppCompatActivity implements View.OnClickLi
                 //Nos aseguramos de cerrar las ventanas activas o que no se
                 //repitan si es que ya esta abiertas
                 startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                overridePendingTransition(R.anim.zoom_forward_in, R.anim.zoom_forward_out);
                 finish();
                 break;
         }
