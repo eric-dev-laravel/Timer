@@ -78,6 +78,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                             //Nos aseguramos de cerrar las ventanas activas o que no se
                                             //repitan si es que ya esta abiertas
                                             startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                                            overridePendingTransition(R.anim.zoom_forward_in, R.anim.zoom_forward_out);
                                             //Cerramos la actividad actual para que no este en cola
                                             finish();
                                         } else {

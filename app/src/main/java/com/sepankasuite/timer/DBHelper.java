@@ -22,6 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //Ejecutamos la consulta en la BD
         db.execSQL(DataBaseManager.CREATE_TABLE_USERS);
+        db.execSQL(DataBaseManager.CREATE_TABLE_RECORDS_TIMER);
     }
 
     @Override

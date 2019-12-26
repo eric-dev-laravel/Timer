@@ -24,6 +24,7 @@ public class DataBaseManager {
     /* *************************** ESTRUCTURA DE LA DB *********************************** */
     //Nombre de la tabla usuarios
     public static final String TABLE_USERS = "users";
+    public static final String TABLE_RECORDS_TIMER = "records_timer";
 
     //Nombre de campos server
     public static final String CN_ID = "_id";
@@ -33,6 +34,13 @@ public class DataBaseManager {
     public static final String CN_USER = "email";
     public static final String CN_PASSWORD = "password";
     public static final String CN_STATE = "state";
+    //Nombre de campos timer
+    public static final String CN_LATITUDE = "latitude";
+    public static final String CN_LONGITUDE = "longitude";
+    public static final String CN_ADDRESS = "address";
+    public static final String CN_ABOUT = "about";
+    public static final String CN_DATE = "date";
+    public static final String CN_TIME = "time";
 
     /* ************* TABLAS ***************** */
 
@@ -44,12 +52,31 @@ public class DataBaseManager {
             + CN_PASSWORD + " text not null,"
             + CN_STATE + " text not null);";
 
+    //Sentencia para crear la tabla records timer
+    public static final String CREATE_TABLE_RECORDS_TIMER = "create table "+TABLE_RECORDS_TIMER+" ("
+            + CN_ID + " integer primary key autoincrement,"
+            + CN_ID_USER + " integer,"
+            + CN_LATITUDE + " double not null,"
+            + CN_LONGITUDE + " double not null,"
+            + CN_ADDRESS + " text not null,"
+            + CN_ABOUT + " text not null,"
+            + CN_DATE + " text not null,"
+            + CN_TIME + " text not null,"
+            + CN_STATE + " text not null,"
+            + CN_SYNC + " int not null);";
+
     /* ****************** METODOS DE INSERTAR ************************** */
 
     //Metodo para insertar usuarios
     public void InsertParamsUsers(int id_user, String user, String password) {
         //Instruccion para insertar en android
         db.insert(TABLE_USERS, null, generarContentValuesUsers(id_user, user, password));
+    }
+
+    //Metodo para insertar usuarios
+    public void InsertParamsRecordsTimer(int id_user, double latitude, double longitude, String address, String about, String date, String time) {
+        //Instruccion para insertar en android
+        db.insert(TABLE_RECORDS_TIMER, null, generarContentValuesRecordsTimer(id_user, latitude, longitude, address, about, date, time));
     }
 
     /* ****************** METODOS DE BORRAR ************************** */
@@ -68,6 +95,14 @@ public class DataBaseManager {
         return db.query(TABLE_USERS, columnas, null, null, null, null, null);
     }
 
+    public Cursor selectDataRecordsTimer() {
+        //Se crea el array de las columnas que seran consultadas
+        String[] columnas = new String[]{CN_ADDRESS, CN_ABOUT, CN_DATE, CN_TIME};
+
+        //Recupera la informacion del estatus que queremos
+        return db.query(TABLE_USERS, columnas, null, null, null, null, null);
+    }
+
     //#########################    CONTENEDORES   ###############################################
 
     //Metodo contenedor de valores USUARIOS
@@ -77,6 +112,21 @@ public class DataBaseManager {
         values.put(CN_USER, user);
         values.put(CN_PASSWORD, password);
         values.put(CN_STATE, 0);
+        return values;
+    }
+
+    //Metodo contenedor de valores USUARIOS
+    private ContentValues generarContentValuesRecordsTimer(int id_user, double latitude, double longitude, String address, String about, String date, String time) {
+        ContentValues values = new ContentValues();
+        values.put(CN_ID_USER, id_user);
+        values.put(CN_LATITUDE, latitude);
+        values.put(CN_LONGITUDE, longitude);
+        values.put(CN_ADDRESS, address);
+        values.put(CN_ABOUT, about);
+        values.put(CN_DATE, date);
+        values.put(CN_TIME, time);
+        values.put(CN_STATE, "E/S");
+        values.put(CN_SYNC, 0);
         return values;
     }
 
