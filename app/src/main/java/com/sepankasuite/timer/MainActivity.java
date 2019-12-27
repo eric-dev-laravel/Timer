@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -18,7 +20,10 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tv_latitud,tv_longitud;
     TextView tv_direccion, tv_fechahora;
     private LocationManager locationManager;
+    String comment = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +78,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
                     return;
                 }
-                Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-                onLocationChanged(location);
+                final Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setTitle("Comment");
+                alertDialog.setMessage("Agrega un comentario");
+
+                final EditText tv_comment = new EditText(this);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                tv_comment.setLayoutParams(layoutParams);
+                alertDialog.setView(tv_comment);
+                alertDialog.setIcon(R.drawable.ic_arrow_back_white);
+
+                alertDialog.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        comment = tv_comment.getText().toString();
+                        Toast.makeText(getApplicationContext(),
+                                "Comment: " + comment, Toast.LENGTH_SHORT).show();
+                        onLocationChanged(location);
+                    }
+                });
+
+                alertDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                alertDialog.show();
+
                 break;
 
             case R.id.btn_history:
@@ -126,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_fechahora.setText("Fecha: " + fecha + " Hora: " + hora);
 
         try {
-            manager.InsertParamsRecordsTimer(1, latitude, longitude, direccion, "", fecha, hora);
+            manager.InsertParamsRecordsTimer(1, latitude, longitude, direccion, comment, fecha, hora);
             Log.d("Success: ", "Record add correctly");
         } catch (Exception e) {
             Log.d("Error", String.valueOf(e));

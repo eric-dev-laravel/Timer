@@ -100,7 +100,7 @@ public class DataBaseManager {
         String[] columnas = new String[]{CN_ADDRESS, CN_ABOUT, CN_DATE, CN_TIME};
 
         //Recupera la informacion del estatus que queremos
-        return db.query(TABLE_USERS, columnas, null, null, null, null, null);
+        return db.query(TABLE_RECORDS_TIMER, columnas, null, null, null, null, CN_ID+" DESC");
     }
 
     //#########################    CONTENEDORES   ###############################################
