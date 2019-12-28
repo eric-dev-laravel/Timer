@@ -97,10 +97,19 @@ public class DataBaseManager {
 
     public Cursor selectDataRecordsTimer() {
         //Se crea el array de las columnas que seran consultadas
-        String[] columnas = new String[]{CN_ADDRESS, CN_ABOUT, CN_DATE, CN_TIME};
+        String[] columnas = new String[]{CN_ID, CN_ADDRESS, CN_ABOUT, CN_DATE, CN_TIME};
 
         //Recupera la informacion del estatus que queremos
         return db.query(TABLE_RECORDS_TIMER, columnas, null, null, null, null, CN_ID+" DESC");
+    }
+
+    public Cursor selectSpecificDataRecordsTimer(int Id) {
+        //Se crea el array de las columnas que seran consultadas
+        String[] columnas = new String[]{CN_ID, CN_LATITUDE, CN_LONGITUDE, CN_ADDRESS, CN_ABOUT, CN_DATE, CN_TIME};
+        String[] args = new String[] {String.valueOf(Id)};
+
+        //Recupera la informacion del estatus que queremos
+        return db.query(TABLE_RECORDS_TIMER, columnas, "_id=?", args, null, null, null);
     }
 
     //#########################    CONTENEDORES   ###############################################

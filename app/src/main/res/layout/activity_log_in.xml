@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_splash_color"
+    android:background="@drawable/background_image_splash"
     tools:context=".LogInActivity">
+    <!--android:background="@drawable/background_splash_color"-->
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -19,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginTop="90dp"
-            android:src="@drawable/your_logo_here"/>
+            android:src="@drawable/logo_ucin"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -27,7 +28,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:layout_marginTop="30dp"
-            android:textColorHint="@color/colorAccent">
+            android:textColorHint="@color/colorGrayUcin">
 
             <EditText
                 android:id="@+id/et_user"
@@ -35,8 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Email"
-                android:text="soporte@hallmg.com"
+                android:hint="E-mail"
                 android:textColorHint="@color/colorGrayUcin"
                 android:inputType="textEmailAddress"
                 android:textColor="#000000"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:textColorHint="@color/colorAccent">
+            android:textColorHint="@color/colorGrayUcin">
 
             <EditText
                 android:id="@+id/et_password"
@@ -59,7 +59,6 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Contraseña"
-                android:text="Rally2019$"
                 android:textColorHint="@color/colorGrayUcin"
                 android:inputType="textPassword"
                 android:textColor="#000000"

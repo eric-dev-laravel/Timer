@@ -3,18 +3,23 @@
     package="com.sepankasuite.timer">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/your_logo_here"
+        android:icon="@drawable/icon_app_ucin"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/your_logo_here"
+        android:roundIcon="@drawable/icon_app_ucin"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MyHistoryActivity"></activity>
+
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/map_key"/>
+
+        <activity android:name=".HistoryMapActivity"></activity>
+        <activity android:name=".MyHistoryActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"

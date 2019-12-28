@@ -4,98 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_splash_color"
+    android:background="@drawable/background_image_splash"
     tools:context=".LogInActivity">
+    <!--android:background="@drawable/background_splash_color"-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:padding="30dp"
+        android:padding="20dp"
         tools:context=".login_activity">
+
+
+        <Button
+            android:id="@+id/btn_timer"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_timer"/>
 
         <TextView
             android:id="@+id/tv_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Check In"
+            android:text="Checar"
             android:layout_gravity="center"
-            android:textColor="#FFFFFF"
-            android:textSize="18dp"/>
-
-        <TextView
-            android:id="@+id/txtLatitud"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="52dp"
-            android:text="Latitud"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:id="@+id/txtLongitud"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
-            android:text="Longitud"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtLatitud" />
-        <TextView
-            android:id="@+id/txtDireccion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
-            android:text="Direccion"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtLongitud" />
-        <TextView
-            android:id="@+id/txtFechaHora"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
-            android:text="Direccion"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDireccion" />
+            android:textColor="@color/colorBlueUcin"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
 
         <Button
-            android:id="@+id/btn_timer"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:id="@+id/btn_history"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="50dp"
             android:layout_gravity="center"
-            android:background="@drawable/button_timer"/>
+            android:background="@drawable/button_history"/>
 
         <TextView
             android:id="@+id/tv_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My History"
+            android:text="Mi Historial"
             android:layout_gravity="center"
-            android:textColor="#FFFFFF"
-            android:textSize="18dp"
-            android:layout_marginTop="50dp"/>
-
-        <Button
-            android:id="@+id/btn_history"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:background="@drawable/button_history"/>
+            android:textColor="@color/colorBlueUcin"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 

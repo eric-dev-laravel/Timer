@@ -25,6 +25,7 @@ public class CustomAdapterHistory extends ArrayAdapter<DataHistory> implements V
         TextView txtType;
         TextView txtVersion;
         ImageView info;
+        TextView txtTime;
     }
 
     public CustomAdapterHistory(ArrayList<DataHistory> data, Context context) {
@@ -45,8 +46,8 @@ public class CustomAdapterHistory extends ArrayAdapter<DataHistory> implements V
         switch (v.getId())
         {
             case R.id.item_info:
-                Snackbar.make(v, "Release date " +dataModel.getFeature(), Snackbar.LENGTH_LONG)
-                        .setAction("No action", null).show();
+                //Snackbar.make(v, "Release date " +dataModel.getFeature(), Snackbar.LENGTH_LONG)
+                  //      .setAction("No action", null).show();
                 break;
         }
     }
@@ -70,6 +71,7 @@ public class CustomAdapterHistory extends ArrayAdapter<DataHistory> implements V
             viewHolder.txtName = (TextView) convertView.findViewById(R.id.name);
             viewHolder.txtType = (TextView) convertView.findViewById(R.id.type);
             viewHolder.txtVersion = (TextView) convertView.findViewById(R.id.version_number);
+            viewHolder.txtTime = (TextView) convertView.findViewById(R.id.tv_time);
             viewHolder.info = (ImageView) convertView.findViewById(R.id.item_info);
 
             result=convertView;
@@ -87,6 +89,7 @@ public class CustomAdapterHistory extends ArrayAdapter<DataHistory> implements V
         viewHolder.txtName.setText(dataModel.getName());
         viewHolder.txtType.setText(dataModel.getType());
         viewHolder.txtVersion.setText(dataModel.getVersion_number());
+        viewHolder.txtTime.setText(dataModel.getFeature());
         viewHolder.info.setOnClickListener(this);
         viewHolder.info.setTag(position);
         // Return the completed view to render on screen

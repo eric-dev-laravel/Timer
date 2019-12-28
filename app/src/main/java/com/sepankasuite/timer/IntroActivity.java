@@ -21,14 +21,12 @@ public class IntroActivity extends AppIntro {
         //Generamos el numero de elementos que tendra el intro cada uno debe cubrir background, title, description, image
         addSlide(AppIntroFragment.newInstance("BIENVENIDO", "",
                 R.drawable.intro1, ContextCompat.getColor(getApplicationContext(), R.color.colorBlueUcin)));
-        addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "",
-                R.drawable.intro2, ContextCompat.getColor(getApplicationContext(), R.color.colorGrayUcin)));
         addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "Esta app te servirá de apoyo para poder reportar tu hora de inicio de labores donde estes",
-                R.drawable.intro3, ContextCompat.getColor(getApplicationContext(), R.color.colorBlueUcin)));
+                R.drawable.intro2, ContextCompat.getColor(getApplicationContext(), R.color.colorBlueUcin)));
         addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "Al acceder al app con tus credenciales, podrás marcar tu llegada con un solo clic",
-                R.drawable.intro4, ContextCompat.getColor(getApplicationContext(), R.color.colorGrayUcin)));
+                R.drawable.intro3, ContextCompat.getColor(getApplicationContext(), R.color.colorBlueUcin)));
         addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "Simplemente da clic en el botón y listo",
-                R.drawable.intro5, ContextCompat.getColor(getApplicationContext(), R.color.colorBlueUcin)));
+                R.drawable.intro4, ContextCompat.getColor(getApplicationContext(), R.color.colorBlueUcin)));
     }
 
     //Metodo para cambiar de actividad cuando se presiona el boton de hecho

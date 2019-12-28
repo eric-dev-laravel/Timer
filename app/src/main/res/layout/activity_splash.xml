@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_splash_color"
+    android:background="@drawable/background_image_splash"
     tools:context=".SplashActivity"
     android:orientation="vertical">
+    <!--android:background="@drawable/background_splash_color"-->
 
     <ImageView
         android:id="@+id/iv_imageSplash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:src="@drawable/your_logo_here" />
+        android:src="@drawable/logo_ucin" />
 
 </RelativeLayout>

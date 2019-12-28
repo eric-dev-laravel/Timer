@@ -6,13 +6,19 @@ public class DataHistory {
     String type;
     String version_number;
     String feature;
+    String id;
 
-    public DataHistory (String name, String type, String version_number, String feature ) {
+    public DataHistory (String id, String name, String type, String version_number, String feature ) {
+        this.id=id;
         this.name=name;
         this.type=type;
         this.version_number=version_number;
         this.feature=feature;
 
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {

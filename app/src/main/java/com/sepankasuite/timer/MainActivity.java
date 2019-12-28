@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.app.AlertDialog.*;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
     //Variable de instancia de clase de manejo en la BD
@@ -38,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Creamos las variables globales
     private Button btn_timer, btn_history;
-    TextView tv_latitud,tv_longitud;
-    TextView tv_direccion, tv_fechahora;
     private LocationManager locationManager;
     String comment = "";
 
@@ -58,11 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_history = findViewById(R.id.btn_history);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        tv_latitud = (TextView) findViewById(R.id.txtLatitud);
-        tv_longitud = (TextView) findViewById(R.id.txtLongitud);
-        tv_direccion = (TextView) findViewById(R.id.txtDireccion);
-        tv_fechahora = (TextView) findViewById(R.id.txtFechaHora);
-
         //Generamos el metodo de clic para los botones
         btn_timer.setOnClickListener(this);
         btn_history.setOnClickListener(this);
@@ -79,25 +74,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 final Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+                String direccion = setLocation(location);
+                SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                Date date = new Date();
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-                alertDialog.setTitle("Comment");
-                alertDialog.setMessage("Agrega un comentario");
+                String fecha = dateFormat1.format(date);
+                String hora = dateFormat2.format(date);
 
-                final EditText tv_comment = new EditText(this);
+                Builder alertDialog = new Builder(this);
+                alertDialog.setTitle("Nuevo Registro");
+                alertDialog.setMessage("\nDirección:\n"+ direccion + "\n\nFecha:\n" + fecha + "\n\nHora:\n" + hora + "\n\nComentario:\n");
+
+                final EditText et_comment = new EditText(this);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);
-                tv_comment.setLayoutParams(layoutParams);
-                alertDialog.setView(tv_comment);
-                alertDialog.setIcon(R.drawable.ic_arrow_back_white);
+                et_comment.setLayoutParams(layoutParams);
+                et_comment.setHint("Opcional");
+
+                alertDialog.setView(et_comment);
+                alertDialog.setIcon(R.drawable.button_timer);
 
                 alertDialog.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        comment = tv_comment.getText().toString();
-                        Toast.makeText(getApplicationContext(),
-                                "Comment: " + comment, Toast.LENGTH_SHORT).show();
+                        comment = et_comment.getText().toString();
                         onLocationChanged(location);
                     }
                 });
@@ -108,8 +110,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         dialogInterface.cancel();
                     }
                 });
-                alertDialog.show();
 
+                alertDialog.show();
                 break;
 
             case R.id.btn_history:
@@ -156,14 +158,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
         String direccion = setLocation(location);
-        tv_latitud.setText("Latitud: " + latitude);
-        tv_longitud.setText("Longitude: " + longitude);
-        tv_direccion.setText(direccion);
-        tv_fechahora.setText("Fecha: " + fecha + " Hora: " + hora);
 
         try {
             manager.InsertParamsRecordsTimer(1, latitude, longitude, direccion, comment, fecha, hora);
-            Log.d("Success: ", "Record add correctly");
+            //Log.d("Success: ", "Record add correctly");
         } catch (Exception e) {
             Log.d("Error", String.valueOf(e));
         }

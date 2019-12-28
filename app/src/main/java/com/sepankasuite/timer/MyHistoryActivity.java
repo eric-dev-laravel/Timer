@@ -3,6 +3,7 @@ package com.sepankasuite.timer;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,16 +47,17 @@ public class MyHistoryActivity extends AppCompatActivity {
 
         cursor = manager.selectDataRecordsTimer();
         if (cursor.moveToFirst()){
-            String direccion, comentario, fecha, hora;
+            String id, direccion, comentario, fecha, hora;
             do{
-                direccion = cursor.getString(0);
-                comentario = cursor.getString(1);
-                fecha = cursor.getString(2);
-                hora = cursor.getString(3);
-                dataModels.add(new DataHistory(fecha, comentario, direccion,hora));
+                id = cursor.getString(0);
+                direccion = cursor.getString(1);
+                comentario = cursor.getString(2);
+                fecha = cursor.getString(3);
+                hora = cursor.getString(4);
+                dataModels.add(new DataHistory(id, fecha, comentario, direccion,hora));
             } while (cursor.moveToNext());
         } else {
-            dataModels.add(new DataHistory("Apple Pie", "Android 1.0", "1","September 23, 2008"));
+            //dataModels.add(new DataHistory("1", "Apple Pie", "Android 1.0", "1","September 23, 2008"));
         }
 
         adapter= new CustomAdapterHistory(dataModels,getApplicationContext());
@@ -67,8 +69,14 @@ public class MyHistoryActivity extends AppCompatActivity {
 
                 DataHistory dataModel= dataModels.get(position);
 
-                Snackbar.make(view, dataModel.getName()+"\n"+dataModel.getType() + dataModel.getVersion_number(), Snackbar.LENGTH_LONG)
-                        .setAction("No action", null).show();
+                //Snackbar.make(view, "ID: " + dataModel.getId(), Snackbar.LENGTH_LONG).setAction("No action", null).show();
+                Intent intent = new Intent(MyHistoryActivity.this, HistoryMapActivity.class);
+                //Mandamos paramentros a la siguiente ventana
+                intent.putExtra("id", dataModel.getId());
+                //Nos aseguramos de cerrar las ventanas activas o que no se
+                //repitan si es que ya esta abiertas
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                overridePendingTransition(R.anim.zoom_forward_in, R.anim.zoom_forward_out);
             }
         });
     }
