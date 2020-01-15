@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Variable de instancia de clase de manejo en la BD
     DataBaseManager manager;
+    ApiManager api;
 
     //Creamos las variables globales
     private Button btn_timer, btn_history;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Creamos una nueva instancia de la clase para obtener atributos y metodos
         manager = new DataBaseManager(this);
+        api = new ApiManager();
 
         //Enlazamos las variables con los objetos fisicos
         btn_timer = findViewById(R.id.btn_timer);
@@ -161,7 +163,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         try {
             manager.InsertParamsRecordsTimer(1, latitude, longitude, direccion, comment, fecha, hora);
-            //Log.d("Success: ", "Record add correctly");
+            api.saveCheck(1, fecha, hora, longitude, latitude, direccion, comment);
+
         } catch (Exception e) {
             Log.d("Error", String.valueOf(e));
         }

@@ -60,7 +60,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             //Creamos un nuevo cliente de conexion
                             AsyncHttpClient client = new AsyncHttpClient();
                             //Definimos la URL a la cual sera dirigidio y recuperamos los datos de las cajas de texto
-                            String url = manager.SERVER_URL + manager.SERVER_PATH_CHECKLOGIN + et_user.getText().toString() +"/" + et_password.getText().toString() +"/";
+                            String url = manager.SERVER_URL + manager.SERVER_PATH_CHECKLOGIN + et_user.getText().toString() + "/" + et_password.getText().toString() + "/";
 
                             //Ejecutamos peticion POST para envio de parametros
                             client.post(url, null, new AsyncHttpResponseHandler() {
