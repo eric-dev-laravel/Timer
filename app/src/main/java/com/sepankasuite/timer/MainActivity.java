@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             api.saveCheck(1, fecha, hora, longitude, latitude, direccion, comment);
 
         } catch (Exception e) {
-            Log.d("Error", String.valueOf(e));
+            Log.d("error_location_changed", String.valueOf(e));
         }
     }
 

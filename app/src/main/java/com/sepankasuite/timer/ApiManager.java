@@ -43,7 +43,7 @@ public class ApiManager {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                Log.d("error_post", String.valueOf(statusCode));
             }
         });
     }
@@ -73,20 +73,14 @@ public class ApiManager {
     }
 
     public boolean parseSaveJSON(String response) {
-        boolean acceso = false;
-        int id_user = 0;
+        boolean success = false;
         try {
             //recibimos el arreglo de tipo JSON en una variable JSON
             JSONObject object = new JSONObject(response);
-            JSONObject jsonArray = object.getJSONObject("success");
-            acceso = jsonArray.getBoolean("existe");
-            if (!acceso){
-                Log.d("errorJson", jsonArray.getString("error"));
-            }
-
+            success = object.getBoolean("success");
         } catch (Exception e) {
             Log.d("errorJson", String.valueOf(e));
         }
-        return acceso;
+        return success;
     }
 }
