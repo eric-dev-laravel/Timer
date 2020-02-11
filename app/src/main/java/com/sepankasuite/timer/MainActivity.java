@@ -44,12 +44,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LocationManager locationManager;
     String comment = "";
 
+    Location location1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Asignamos que el activity solo se abra de tipo vertical
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+            return;
+        }
 
         //Creamos una nueva instancia de la clase para obtener atributos y metodos
         manager = new DataBaseManager(this);
@@ -59,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_timer = findViewById(R.id.btn_timer);
         btn_history = findViewById(R.id.btn_history);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        location1 = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
 
         //Generamos el metodo de clic para los botones
         btn_timer.setOnClickListener(this);
@@ -75,8 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
                     return;
                 }
-                final Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-                String direccion = setLocation(location);
+
+                //final Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+                String direccion = setLocation(location1);
                 SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 Date date = new Date();
@@ -102,7 +112,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         comment = et_comment.getText().toString();
-                        onLocationChanged(location);
+                        //onLocationChanged(location);
+                        saveLocationChanged(location1);
                     }
                 });
 
@@ -150,6 +161,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onLocationChanged(Location location) {
+        location1 = location;
+        /*SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+
+        String fecha = dateFormat1.format(date);
+        String hora = dateFormat2.format(date);
+
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        String direccion = setLocation(location);
+
+        try {
+            manager.InsertParamsRecordsTimer(1, latitude, longitude, direccion, comment, fecha, hora);
+            api.saveCheck(1, fecha, hora, longitude, latitude, direccion, comment);
+
+        } catch (Exception e) {
+            Log.d("error_location_changed", String.valueOf(e));
+        }*/
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+
+    public void saveLocationChanged(Location location) {
         SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         Date date = new Date();
@@ -168,20 +217,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             Log.d("error_location_changed", String.valueOf(e));
         }
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
     }
 }
