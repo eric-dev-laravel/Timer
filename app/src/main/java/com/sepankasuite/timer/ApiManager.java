@@ -37,6 +37,7 @@ public class ApiManager {
                     boolean success = parseSaveJSON(new String(responseBody));
                     if (success) {
                         //Aqui se supone que se deben de actualizar las sincronias
+                        //manager.updateDataCheckState(id_del_registro);
                     }
                 }
             }

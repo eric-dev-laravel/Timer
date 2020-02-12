@@ -10,12 +10,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +29,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.apache.http.Header;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +40,13 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.app.AlertDialog.*;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import org.apache.http.Header;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
@@ -45,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String comment = "";
 
     Location location1;
+    Cursor cursorManager;
+    Integer idUser=0;
+
+    Cursor cursorLastCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Creamos una nueva instancia de la clase para obtener atributos y metodos
         manager = new DataBaseManager(this);
         api = new ApiManager();
+        cursorManager = manager.selectDataUsers();
+        if (cursorManager.moveToFirst()){
+            idUser = cursorManager.getInt(0);
+        }
 
         //Enlazamos las variables con los objetos fisicos
         btn_timer = findViewById(R.id.btn_timer);
@@ -73,6 +96,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_timer.setOnClickListener(this);
         btn_history.setOnClickListener(this);
 
+        final boolean ejecutar = true;
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    while(ejecutar){
+                        new UploadChecksTimer().execute();
+                        Thread.sleep(20000);
+                    }
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -211,11 +248,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String direccion = setLocation(location);
 
         try {
-            manager.InsertParamsRecordsTimer(1, latitude, longitude, direccion, comment, fecha, hora);
-            api.saveCheck(1, fecha, hora, longitude, latitude, direccion, comment);
+            manager.InsertParamsRecordsTimer(idUser, latitude, longitude, direccion, comment, fecha, hora);
+            api.saveCheck(idUser, fecha, hora, longitude, latitude, direccion, comment);
 
         } catch (Exception e) {
             Log.d("error_location_changed", String.valueOf(e));
+        }
+    }
+
+    public class UploadChecksTimer extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            final Handler handler = new Handler(Looper.getMainLooper());
+            final Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    cursorLastCheck = manager.selectDataRecordsTimerSync();
+                    cursorLastCheck.moveToFirst();
+                    if (cursorLastCheck.getCount() != 0){
+                        while (!cursorLastCheck.isAfterLast()){
+                            Log.d("status", "Sincronizando...");
+                            api.saveCheck(idUser, cursorLastCheck.getString(6), cursorLastCheck.getString(7), cursorLastCheck.getDouble(3), cursorLastCheck.getDouble(2), cursorLastCheck.getString(4), cursorLastCheck.getString(5));
+                            cursorLastCheck.moveToNext();
+                        }
+                    }
+                }
+            };
+            handler.post(runnable);
+            return null;
         }
     }
 }

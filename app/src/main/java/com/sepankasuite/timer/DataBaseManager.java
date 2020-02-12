@@ -112,6 +112,28 @@ public class DataBaseManager {
         return db.query(TABLE_RECORDS_TIMER, columnas, "_id=?", args, null, null, null);
     }
 
+    public Cursor selectDataRecordsTimerSync() {
+        //Se crea el array de las columnas que seran consultadas
+        String[] columnas = new String[]{CN_ID, CN_ID_USER, CN_LATITUDE, CN_LONGITUDE, CN_ADDRESS, CN_ABOUT, CN_DATE, CN_TIME};
+
+        String[] args = new String[] {String.valueOf(0)};
+
+        //Recupera la informacion del estatus que queremos
+        return db.query(TABLE_RECORDS_TIMER, columnas, "sincronized=?", args, null, null, CN_ID+" DESC");
+    }
+
+    /* ****************** METODOS DE UPDATE ************************** */
+
+    //Editar un campo en la tabla de Preguntas
+    public void updateDataCheckState(int idChech){
+        ContentValues columnas = new ContentValues();
+        columnas.put(CN_SYNC, 1);
+
+        String[] args = new String[] {String.valueOf(idChech)};
+
+        db.update(TABLE_RECORDS_TIMER, columnas, "_id=?", args);
+    }
+
     //#########################    CONTENEDORES   ###############################################
 
     //Metodo contenedor de valores USUARIOS
