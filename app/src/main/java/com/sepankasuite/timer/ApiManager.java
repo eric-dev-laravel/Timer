@@ -1,8 +1,7 @@
 package com.sepankasuite.timer;
 
-import android.content.Intent;
+import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -15,16 +14,23 @@ import java.net.URLEncoder;
 
 public class ApiManager {
 
+    public Context context;
+
     //Variables de configuracion de servicios
     public static final String SERVER_URL = "http://somosucin.soysepanka.com/";
     public static final String SERVER_PATH_SAVECHECK = "api/incidents/save_check/";
     public static final String SERVER_PATH_GETCHECK = "api/incidents/get_check/";
 
-    public void saveCheck(int id_user, String fecha, String hora, double longitude, double latitude, String direccion, String comment) {
+    public ApiManager(MainActivity context){
+        this.context = context;
+    }
+
+    public void saveCheck(final long inserted_id, int id_user, String fecha, String hora, double longitude, double latitude, String direccion, String comment) {
+        final long inserted = inserted_id;
         AsyncHttpClient client = new AsyncHttpClient();
         //Definimos la URL a la cual sera dirigidio y recuperamos los datos de las cajas de texto
         String url = generateSaveURL(id_user, fecha, hora, longitude, latitude, direccion, comment);
-
+        Log.d("urlCheck", url);
         //Ejecutamos peticion POST para envio de parametros
         client.post(url, null, new AsyncHttpResponseHandler() {
             @Override
@@ -34,10 +40,20 @@ public class ApiManager {
                 if (statusCode == 200) {
                     //Recibimos la respuesta del servidor en formato JSON y la mandamos a la clase que obtiene los datos
                     //Asignamos el acceso si fue correcto regresara un true de lo contrario false
-                    boolean success = parseSaveJSON(new String(responseBody));
-                    if (success) {
-                        //Aqui se supone que se deben de actualizar las sincronias
-                        //manager.updateDataCheckState(id_del_registro);
+                    boolean success = false;
+                    int id;
+                    try {
+                        //recibimos el arreglo de tipo JSON en una variable JSON
+                        JSONObject object = new JSONObject(new String(responseBody));
+                        success = object.getBoolean("success");
+                        if (success) {
+                            //Aqui se supone que se deben de actualizar las sincronias
+                            DataBaseManager manager = new DataBaseManager(context);
+                            Log.d("apiResponseId", String.valueOf(inserted));
+                            manager.updateDataCheckState(inserted);
+                        }
+                    } catch (Exception e) {
+                        Log.d("errorJson", String.valueOf(e));
                     }
                 }
             }
@@ -73,15 +89,4 @@ public class ApiManager {
         return url;
     }
 
-    public boolean parseSaveJSON(String response) {
-        boolean success = false;
-        try {
-            //recibimos el arreglo de tipo JSON en una variable JSON
-            JSONObject object = new JSONObject(response);
-            success = object.getBoolean("success");
-        } catch (Exception e) {
-            Log.d("errorJson", String.valueOf(e));
-        }
-        return success;
-    }
 }

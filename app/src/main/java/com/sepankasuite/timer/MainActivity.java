@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,18 +19,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.apache.http.Header;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -40,13 +32,6 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.app.AlertDialog.*;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import org.apache.http.Header;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
@@ -79,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Creamos una nueva instancia de la clase para obtener atributos y metodos
         manager = new DataBaseManager(this);
-        api = new ApiManager();
+        api = new ApiManager(this);
         cursorManager = manager.selectDataUsers();
         if (cursorManager.moveToFirst()){
             idUser = cursorManager.getInt(0);
@@ -150,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialogInterface, int i) {
                         comment = et_comment.getText().toString();
                         //onLocationChanged(location);
-                        saveLocationChanged(location1);
+                        saveLocationChanged(location1, dialogInterface);
                     }
                 });
 
@@ -235,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void saveLocationChanged(Location location) {
+    public void saveLocationChanged(Location location, DialogInterface dialogInterface) {
         SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         Date date = new Date();
@@ -248,9 +233,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String direccion = setLocation(location);
 
         try {
-            manager.InsertParamsRecordsTimer(idUser, latitude, longitude, direccion, comment, fecha, hora);
-            api.saveCheck(idUser, fecha, hora, longitude, latitude, direccion, comment);
-
+            long inserted_id = manager.InsertParamsRecordsTimer(idUser, latitude, longitude, direccion, comment, fecha, hora);
+            api.saveCheck(inserted_id, idUser, fecha, hora, longitude, latitude, direccion, comment);
+            dialogInterface.cancel();
         } catch (Exception e) {
             Log.d("error_location_changed", String.valueOf(e));
         }
@@ -268,8 +253,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     cursorLastCheck.moveToFirst();
                     if (cursorLastCheck.getCount() != 0){
                         while (!cursorLastCheck.isAfterLast()){
-                            Log.d("status", "Sincronizando...");
-                            api.saveCheck(idUser, cursorLastCheck.getString(6), cursorLastCheck.getString(7), cursorLastCheck.getDouble(3), cursorLastCheck.getDouble(2), cursorLastCheck.getString(4), cursorLastCheck.getString(5));
+                            Log.d("status", "Sincronizando..." + "id: " + cursorLastCheck.getString(0));
+                            api.saveCheck(cursorLastCheck.getLong(0), idUser, cursorLastCheck.getString(6), cursorLastCheck.getString(7), cursorLastCheck.getDouble(3), cursorLastCheck.getDouble(2), cursorLastCheck.getString(4), cursorLastCheck.getString(5));
                             cursorLastCheck.moveToNext();
                         }
                     }

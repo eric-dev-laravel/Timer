@@ -74,9 +74,9 @@ public class DataBaseManager {
     }
 
     //Metodo para insertar usuarios
-    public void InsertParamsRecordsTimer(int id_user, double latitude, double longitude, String address, String about, String date, String time) {
+    public long InsertParamsRecordsTimer(int id_user, double latitude, double longitude, String address, String about, String date, String time) {
         //Instruccion para insertar en android
-        db.insert(TABLE_RECORDS_TIMER, null, generarContentValuesRecordsTimer(id_user, latitude, longitude, address, about, date, time));
+        return db.insert(TABLE_RECORDS_TIMER, null, generarContentValuesRecordsTimer(id_user, latitude, longitude, address, about, date, time));
     }
 
     /* ****************** METODOS DE BORRAR ************************** */
@@ -125,7 +125,7 @@ public class DataBaseManager {
     /* ****************** METODOS DE UPDATE ************************** */
 
     //Editar un campo en la tabla de Preguntas
-    public void updateDataCheckState(int idChech){
+    public void updateDataCheckState(long idChech){
         ContentValues columnas = new ContentValues();
         columnas.put(CN_SYNC, 1);
 
