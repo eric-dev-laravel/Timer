@@ -1,7 +1,9 @@
 package com.sepankasuite.timer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,7 @@ public class IntroActivity extends AppIntro {
         super.onCreate(savedInstanceState);
         //Al usar este tipo de elemento no requiere hacer una ligadura del codigo java con la actividad
         //setContentView(R.layout.activity_intro);
+
         setFlowAnimation();
 
         //Generamos el numero de elementos que tendra el intro cada uno debe cubrir background, title, description, image

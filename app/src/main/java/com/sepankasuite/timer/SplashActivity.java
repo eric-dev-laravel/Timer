@@ -52,7 +52,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 if (cursor.getCount() > 0){
                     //Creamos una instancia de la otra ventana
-                    Intent intent1 = new Intent(SplashActivity.this, IntroActivity.class);
+                    Intent intent1 = new Intent(SplashActivity.this, MainActivity.class);
                     //Nos aseguramos de cerrar las ventanas activas o que no se
                     //repitan si es que ya esta abiertas
                     startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));

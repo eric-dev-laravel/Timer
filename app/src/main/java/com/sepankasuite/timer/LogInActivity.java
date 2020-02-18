@@ -74,7 +74,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                         boolean access = manager.obtDatosJSONLogin(new String(responseBody), et_user.getText().toString(), et_password.getText().toString());
                                         if(access == true) {
                                             //Creamos una instancia de la otra ventana
-                                            Intent intent1 = new Intent(getApplicationContext(), IntroActivity.class);
+                                            Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
                                             //Nos aseguramos de cerrar las ventanas activas o que no se
                                             //repitan si es que ya esta abiertas
                                             startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
